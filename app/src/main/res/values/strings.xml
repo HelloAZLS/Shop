@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Shop</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">主页</string>
+    <string name="hot">热卖</string>
+    <string name="kinds">分类</string>
+    <string name="car">购物车</string>
+    <string name="my">我的</string>
+</resources>
