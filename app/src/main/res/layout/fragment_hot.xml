@@ -2,12 +2,27 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context="ysg.gdcp.cn.shop.fragment.HotFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hot"/>
+        android:layout_marginTop="10dp"
+        app:overlay="true"
+        app:wave_show="true"
+        app:wave_color="#90ffffff"
+        app:progress_colors="@array/material_colors"
+        app:wave_height_type="higher"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hot_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+
+    </com.cjj.MaterialRefreshLayout>
 
 </FrameLayout>

@@ -6,34 +6,13 @@
               android:orientation="vertical"
               tools:context="ysg.gdcp.cn.shop.fragment.HomeFragment">
 
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/slider"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        />
+        android:layout_height="wrap_content">
 
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        custom:selected_color="#FF5500"
-        custom:selected_height="3dp"
-        custom:selected_padding_left="2dp"
-        custom:selected_padding_right="2dp"
-        custom:selected_width="16dp"
-        custom:shape="rect"
-        custom:unselected_color="#55333333"
-        custom:unselected_height="3dp"
-        custom:unselected_padding_left="2dp"
-        custom:unselected_padding_right="2dp"
-        custom:unselected_width="16dp"
-        />
+        <include layout="@layout/homefragment_layout"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

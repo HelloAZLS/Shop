@@ -8,4 +8,12 @@
     <color name="black">#000</color>
 
     <color name="bg_color">#f1f1f1</color>
+
+    <color name="firebrick">#b22222</color>
+    <color name="white_color_disable">#7fffffff</color>
+    <color name="red_btn_color_normal">#ffff5454</color>
+    <color name="red_btn_color_pressed">#ffd24242</color>
+    <color name="red_btn_color_disable">#7fff5454</color>
+    <color name="gainsboro">#dcdcdc</color>
+
 </resources>
