@@ -29,7 +29,6 @@ public class MyToolbar extends Toolbar {
     private TextView mTvTitle;
     private EditText mEtTxt;
     private ImageButton mImageButton;
-    private Context mContext;
     private View mView;
 
     public MyToolbar(Context context) {
