@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.squareup.okhttp.Response;
 
 import java.util.List;
@@ -19,8 +20,9 @@ import java.util.List;
 import ysg.gdcp.cn.shop.R;
 import ysg.gdcp.cn.shop.Utils.Contants;
 import ysg.gdcp.cn.shop.Utils.OkHttpUtils;
+import ysg.gdcp.cn.shop.adapter.BaseAdapter;
 import ysg.gdcp.cn.shop.adapter.DividerItemDecortion;
-import ysg.gdcp.cn.shop.adapter.HotWaresAdapter;
+import ysg.gdcp.cn.shop.adapter.HWAdapter;
 import ysg.gdcp.cn.shop.bean.Page;
 import ysg.gdcp.cn.shop.bean.Wares;
 import ysg.gdcp.cn.shop.listener.SpotsCallBack;
@@ -38,7 +40,13 @@ public class HotFragment extends Fragment {
     private int currentPage = 1;
     private int pageSize = 10;
     private List<Wares> mDatas;
-    private HotWaresAdapter mHotWaresAdapter;
+    private HWAdapter mHotWaresAdapter;
+    public static final int STATE_NORMAL = 0;
+    public static final int STATE_REDRESH = 1;
+    public static final int STATE_MORE = 2;
+    private int state = STATE_NORMAL;
+    private int totaPage = 1;
+
 
     public HotFragment() {
         // Required empty public constructor
@@ -51,8 +59,48 @@ public class HotFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_hot, container, false);
         initViews();
+        initRefreshLayout();
         getDatas();
         return mView;
+
+    }
+
+    private void initRefreshLayout() {
+
+        mRefresh.setLoadMore(true);
+        mRefresh.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+
+                refreshData();
+
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+
+                if (currentPage <= totaPage)
+                    loadMore();
+                else {
+
+                    mRefresh.finishRefreshLoadMore();
+                }
+            }
+        });
+    }
+
+    private void refreshData() {
+        currentPage = 1;
+        state = STATE_REDRESH;
+        getDatas();
+
+
+    }
+
+    private void loadMore() {
+        currentPage = ++currentPage;
+        state = STATE_MORE;
+        getDatas();
 
     }
 
@@ -66,9 +114,10 @@ public class HotFragment extends Fragment {
             public void onSucess(Response response, Page<Wares> waresPage) {
                 mDatas = waresPage.getList();
                 for (Wares data : mDatas) {
-                    Log.i("数据",data.getName());
+                    Log.i("数据", data.getName());
                 }
-                currentPage =waresPage.getCurrentPage();
+                currentPage = waresPage.getCurrentPage();
+                totaPage = waresPage.getTotalPage();
                 showDatas();
             }
 
@@ -80,17 +129,42 @@ public class HotFragment extends Fragment {
 
     }
 
-    public  void showDatas(){
-        mHotWaresAdapter = new HotWaresAdapter(mDatas);
-        mRecyclerView.setAdapter(mHotWaresAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecortion(getContext(),DividerItemDecortion.VERTICAL_LIST));
+    public void showDatas() {
+
+        switch (state) {
+            case STATE_NORMAL:
+                mHotWaresAdapter = new HWAdapter(mDatas,getContext());
+                mHotWaresAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnClick(View view, int position) {
+
+                    }
+                });
+                mRecyclerView.setAdapter(mHotWaresAdapter);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.addItemDecoration(new DividerItemDecortion(getContext(), DividerItemDecortion.VERTICAL_LIST));
+
+                break;
+            case STATE_REDRESH:
+                mHotWaresAdapter.clearData();
+                mHotWaresAdapter.addData(mDatas);
+                mRecyclerView.scrollToPosition(0);
+                mRefresh.finishRefresh();
+                break;
+            case STATE_MORE:
+                mHotWaresAdapter.addData(mHotWaresAdapter.getData().size(), mDatas);
+                mRecyclerView.scrollToPosition(mHotWaresAdapter.getData().size());
+                mRefresh.finishRefreshLoadMore();
+                break;
+        }
+
 
     }
 
     private void initViews() {
         mRefresh = (MaterialRefreshLayout) mView.findViewById(R.id.refresh);
+
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.hot_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }

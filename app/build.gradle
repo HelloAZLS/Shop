@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "ysg.gdcp.cn.shop"
@@ -21,6 +21,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -31,11 +32,22 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.android.support:cardview-v7:21.0.+'
-    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     testCompile 'junit:junit:4.12'
     compile 'io.github.openfeign:feign-gson:9.5.0'
     compile 'com.cjj.materialrefeshlayout:library:1.3.0'
     compile 'com.facebook.fresco:fresco:0.12.0'
+}
+configurations.all {
+
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.0'
+            }
+        }
+    }
 }
