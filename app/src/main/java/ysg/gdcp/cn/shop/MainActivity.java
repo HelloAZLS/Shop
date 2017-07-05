@@ -1,6 +1,9 @@
 package ysg.gdcp.cn.shop;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,21 +21,30 @@ import ysg.gdcp.cn.shop.fragment.HotFragment;
 import ysg.gdcp.cn.shop.fragment.KindsFragment;
 import ysg.gdcp.cn.shop.fragment.MyFragment;
 import ysg.gdcp.cn.shop.view.FragmentTabHost;
+import ysg.gdcp.cn.shop.view.MyToolbar;
 
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends AppCompatActivity {
 
     private FragmentTabHost mTabHost;
     private List<Tab> mTabs;
-    private int mCurrentTab =0;
+    private int mCurrentTab = 0;
+    private CarFragment carFragment;
+    private MyToolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initToolbar();
         initViews();
         initData();
 
 
+    }
+
+    private void initToolbar() {
+        mToolbar =(MyToolbar)findViewById(R.id.toolbar_main);
     }
 
     private void initData() {
@@ -57,11 +69,37 @@ public class MainActivity extends AppCompatActivity {
             tvTitle.setText(tab.getTitle());
             imageView.setImageResource(tab.getId());
             tabSpec.setIndicator(view);
-            mTabHost.addTab(tabSpec,tab.getFragment(),null);
+            mTabHost.addTab(tabSpec, tab.getFragment(), null);
         }
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                if (s == getString(R.string.car)) {
+                    refreshData();
+
+                }else{
+                    mToolbar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         //去分割線
         mTabHost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
 
+
+    }
+
+    private void refreshData() {
+        if (carFragment == null) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.car));
+            if (fragment != null) {
+                carFragment = (CarFragment) fragment;
+                carFragment.refreshData();
+
+            }
+        } else {
+            carFragment.refreshData();
+            carFragment.btnEditor();
+        }
 
     }
 

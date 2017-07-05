@@ -3,6 +3,8 @@ package ysg.gdcp.cn.shop.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.TintTypedArray;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -10,8 +12,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ysg.gdcp.cn.shop.R;
@@ -23,26 +25,28 @@ import ysg.gdcp.cn.shop.R;
  * @author ysg
  */
 
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MyToolbar extends Toolbar {
     private LayoutInflater mInflater;
     private TextView mTvTitle;
     private EditText mEtTxt;
-    private ImageButton mImageButton;
+    private Button mRightButton;
     private View mView;
 
     public MyToolbar(Context context) {
         this(context, null);
     }
 
+
     public MyToolbar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
+
     public MyToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews();
-        setContentInsetsRelative(10,10);
+        setContentInsetsRelative(10, 10);
         if (attrs != null) {
             TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                     R.styleable.MyToolbar, defStyleAttr, 0);
@@ -55,7 +59,7 @@ public class MyToolbar extends Toolbar {
             if (isShowSearchView) {
                 showSearchView();
                 hideTitleView();
-            }else {
+            } else {
                 showTitleView();
                 hideSearchView();
             }
@@ -70,22 +74,27 @@ public class MyToolbar extends Toolbar {
             mView = View.inflate(getContext(), R.layout.toolbar, null);
             mTvTitle = (TextView) mView.findViewById(R.id.toolbar_title);
             mEtTxt = (EditText) mView.findViewById(R.id.toolbar_searchview);
-            mImageButton = (ImageButton) mView.findViewById(R.id.toolbar_rightButton);
+            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
 
             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
             addView(mView, params);
         }
     }
 
+
     public void setRightButtionIcon(Drawable drawable) {
         if (drawable != null) {
-            mImageButton.setImageDrawable(drawable);
-            mImageButton.setVisibility(VISIBLE);
+            mRightButton.setBackground(drawable);
+            mRightButton.setVisibility(VISIBLE);
         }
     }
 
     public void setRightButtionONclickListener(OnClickListener listener) {
-        mImageButton.setOnClickListener(listener);
+        mRightButton.setOnClickListener(listener);
+    }
+
+    public Button getRightButton() {
+        return this.mRightButton;
     }
 
     @Override

@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="MyToolbar">
         <attr name="rightButtionIcon" format="reference"/>
+        <attr name="rightButtonText" format="string|reference"/>
         <attr name="isShowSearchView" format="boolean"/>
 
 

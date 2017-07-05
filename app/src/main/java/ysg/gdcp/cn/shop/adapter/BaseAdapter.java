@@ -68,8 +68,11 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
     }
 
     public void clearData() {
-        mDatas.clear();
-        notifyItemRangeChanged(0, mDatas.size());
+        if (mDatas!=null){
+            mDatas.clear();
+            notifyItemRangeChanged(0, mDatas.size());
+        }
+
     }
 
     public void addData(List<T> datas) {
