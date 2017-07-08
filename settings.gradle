@@ -1,1 +1,1 @@
-include ':app', ':myrecyclerview'
+include ':app', ':myrecyclerview', ':sharesdk'

@@ -1,6 +1,7 @@
 package ysg.gdcp.cn.shop.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import ysg.gdcp.cn.shop.R;
 import ysg.gdcp.cn.shop.Utils.Contants;
+import ysg.gdcp.cn.shop.activity.WareListActivity;
 import ysg.gdcp.cn.shop.listener.OkHttpBaseCallBack;
 import ysg.gdcp.cn.shop.Utils.OkHttpUtils;
 import ysg.gdcp.cn.shop.listener.SpotsCallBack;
@@ -139,7 +141,10 @@ public class HomeFragment extends Fragment {
         mHomeCategoryAdapter.setOnCampaignClickListener(new HomeCategoryAdapter.OnCampaignClickListener() {
             @Override
             public void onClick(View view, Campaign campaign) {
-                Toast.makeText(getContext(), "title" + campaign.getTitle(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "title" + campaign.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(getActivity(), WareListActivity.class);
+                intent.putExtra(Contants.COMPAINGAIN_ID,campaign.getId());
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mHomeCategoryAdapter);

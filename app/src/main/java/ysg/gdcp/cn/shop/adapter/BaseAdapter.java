@@ -75,6 +75,39 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
 
     }
 
+    public void refreshData(List<T> list){
+
+        if(list !=null && list.size()>0){
+
+            clearData();
+            int size = list.size();
+//            Log.i("数据大小",size+"");
+//            for (int i=0;i<size;i++){
+//                mDatas.add(i,list.get(i));
+//                mDatas.addAll(list);
+//                notifyItemInserted(i);
+//            }
+            mDatas.addAll(list);
+            notifyItemRangeChanged(0,size-1);
+//            Log.i("数据大小3",size+"");
+        }
+    }
+
+    public void loadMoreData(List<T> list){
+
+        if(list !=null && list.size()>0){
+
+            int size = list.size();
+            int begin = mDatas.size();
+            for (int i=0;i<size;i++){
+                mDatas.add(list.get(i));
+                notifyItemInserted(i+begin);
+            }
+
+        }
+
+    }
+
     public void addData(List<T> datas) {
         addData(0, datas);
     }
@@ -92,5 +125,5 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
 
     public abstract void bindData(BaseViewHolder holder, T t);
 
-    ;
+
 }

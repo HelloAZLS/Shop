@@ -47,6 +47,11 @@ public class Pager {
     public void request(){
         requestDatas();
     }
+
+    public void  putParam(String key,Object value){
+        builder.params.put(key,value);
+
+    }
     private void initRefreshLayout() {
 
         builder.mRefreshLayout.setLoadMore(builder.canLoadMore);

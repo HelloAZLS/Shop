@@ -88,6 +88,9 @@ public class MyToolbar extends Toolbar {
             mRightButton.setVisibility(VISIBLE);
         }
     }
+    public void setRightButtionIcon(int  id) {
+        setRightButtionIcon(getResources().getDrawable(id));
+    }
 
     public void setRightButtionONclickListener(OnClickListener listener) {
         mRightButton.setOnClickListener(listener);

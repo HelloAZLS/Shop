@@ -1,6 +1,7 @@
 package ysg.gdcp.cn.shop.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,6 +19,7 @@ import java.util.List;
 import ysg.gdcp.cn.shop.R;
 import ysg.gdcp.cn.shop.Utils.Contants;
 import ysg.gdcp.cn.shop.Utils.Pager;
+import ysg.gdcp.cn.shop.activity.WareDetailActicity;
 import ysg.gdcp.cn.shop.adapter.BaseAdapter;
 import ysg.gdcp.cn.shop.adapter.DividerItemDecortion;
 import ysg.gdcp.cn.shop.adapter.HWAdapter;
@@ -50,7 +52,10 @@ public class HotFragment extends Fragment {
                 mHotWaresAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
                     @Override
                     public void OnClick(View view, int position) {
-
+                        Wares wares = mHotWaresAdapter.getItem(position);
+                        Intent intent =new Intent(getActivity(), WareDetailActicity.class);
+                        intent.putExtra(Contants.WARES_ID,wares);
+                        startActivity(intent);
                     }
                 });
                 mRecyclerView.setAdapter(mHotWaresAdapter);

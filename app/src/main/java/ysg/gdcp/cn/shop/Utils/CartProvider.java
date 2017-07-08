@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ysg.gdcp.cn.shop.bean.ShoppingCart;
+import ysg.gdcp.cn.shop.bean.Wares;
 
 /**
  * Created by Administrator on 2017/7/5 08:23.
@@ -39,6 +40,11 @@ public class CartProvider {
         }
         datas.put(cart.getId().intValue(), temp);
         commit();
+    }
+    public void put(Wares wares) {
+
+        ShoppingCart cart =converData(wares);
+        put(cart);
     }
 
     public void update(ShoppingCart cart) {
@@ -90,5 +96,15 @@ public class CartProvider {
         }
 
         return carts;
+    }
+
+    public ShoppingCart converData(Wares wares) {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setId(wares.getId());
+        cart.setDescription(wares.getDescription());
+        cart.setImgUrl(wares.getImgUrl());
+        cart.setName(wares.getName());
+        cart.setPrice(wares.getPrice());
+        return cart;
     }
 }
