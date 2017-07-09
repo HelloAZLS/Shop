@@ -9,6 +9,14 @@ package ysg.gdcp.cn.shop.Utils;
 public  class Contants {
     public static final String  COMPAINGAIN_ID="compaigin_id";
     public static final String  WARES_ID="wares_id";
+    public static final String USER_JSON="user_json";
+    public static final String TOKEN="token";
+
+    public  static final String DES_KEY="ysg_ydy";
+
+    public  static final int REQUEST_CODE=0;
+
+
 
     public static class API{
         public  static final  String BASE_URL="http://112.124.22.238:8081/course_api/";
@@ -24,6 +32,9 @@ public  class Contants {
         public static final String WARES_CAMPAIN_LIST=BASE_URL +"wares/campaign/list";
         public static final String  CATEGORY_LIST=BASE_URL+"category/list";
         public static final String WARES_DETAIL=BASE_URL +"wares/detail.html";
+        public static final String LOGIN=BASE_URL +"auth/login";
+
+
     }
 
 }
